@@ -3,10 +3,12 @@
 	<p> Por favor introduce los siguientes datos: </p>
 
 	{% if error_message %}
-		<p><strong> Ingrese el usurio </strong></p>
+		<p><strong> Registre un usuario </strong></p>
 	{% endif %}
 
-	<form action="{% url 'login:autentificar' %}" method="get">
+	<form action="{% url 'login:register_usuario' %}" method="post">
+
+		{% csrf_token %}
 		<label for="correo" placeholder="ejemplo@mamarre.com"> Correo:  </label>
 		<br>
 		<input 
@@ -26,10 +28,17 @@
 			placeholder="12345"
 		>
 		<br>
-		<br>
-		<input type="submit" value="Ingresar"> 
-	</form>
+		<label for="repetir_contrasena">
+		Repetir contrasena <br></label>
+		<input
+			type='password'
+			name='contrasena2'
+			id='p_input'
+			placeholder="12345"
 
-	<a href="{% url 'login:register' %}"><h2>Registro de usuario</h2></a>
+			>
+		<br>
+		<input type="submit" value="Registrarse"> 
+	</form>
 </div>
 

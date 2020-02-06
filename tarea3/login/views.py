@@ -10,3 +10,63 @@ def index(request):
 	template= loader.get_template('login/login.html')
 	contexto={}
 	return HttpResponse(template.render(contexto, request))
+
+def home(request, correo):
+	template= loader.get_template('login/home.html')
+	contexto={
+
+	'email': correo,
+	}
+	return HttpResponse(template.render(contexto, request))
+
+def autentificar(request):
+	try:
+		correo = request.GET['correo']
+		contrasena = request.GET['contrasena']
+		# validaciones como que ajuro entre al correo
+		# Busca al usurio enn la bd
+	# Cuando no se introdujo bien el correo lanza error
+	except KeyError:
+		texto = { 'error_message': "Vuelva a intentar"}
+		return render(request, 'login/login.html')
+	else: 
+		return home(request, correo)
+
+def register(request):
+	template = loader.get_template('login/register.html')
+	contexto={}
+
+	return HttpResponse(template.render(contexto,request))
+
+
+
+
+	
+
+def register_usuario(request):
+	try:
+		correo = request.POST['correo']
+		contrasena = request.POST['contrasena']
+		contrasena2= request.POST['contrasena2']
+
+		#Validaciones
+
+	except KeyError:
+
+		texto = { 'error_message': "Vuelva a intentar"}
+		return render(request, 'login/register.html', contexto)
+
+		# validaciones como que ajuro entre al correo
+		# Busca al usurio enn la bd
+	# Cuando no se introdujo bien el correo lanza error
+	else:
+		template = loader.get_template('login/home.html')
+		contexto = {
+
+			'email' : correo,
+
+
+		}
+
+		return HttpResponse(template.render(contexto,request))
+	
