@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import seguridad
+from .funciones import registrarUsuario, ingresarUsuario
 # Create your views here.
 
 
@@ -23,25 +24,30 @@ def autentificar(request):
 	try:
 		correo = request.GET['correo']
 		contrasena = request.GET['contrasena']
+		existe, data = ingresarUsuario(correo, contrasena)
 		# validaciones como que ajuro entre al correo
 		# Busca al usurio enn la bd
 	# Cuando no se introdujo bien el correo lanza error
 	except KeyError:
 		texto = { 'error_message': "Vuelva a intentar"}
-		return render(request, 'login/login.html')
+		return render(request, 'login/login.html', texto)
 	else: 
-		return home(request, correo)
+		if existe:
+			template= loader.get_template('login/home.html')
+			contexto={
+				'email': data,
+			}
+			return HttpResponse(template.render(contexto,request))
+		else:
+			texto = { 'error_message': "el usuario no es valido"}
+			return render(request, 'login/login.html')
+
 
 def register(request):
 	template = loader.get_template('login/register.html')
 	contexto={}
 
 	return HttpResponse(template.render(contexto,request))
-
-
-
-
-	
 
 def register_usuario(request):
 	try:
@@ -52,10 +58,8 @@ def register_usuario(request):
 		#Validaciones
 
 	except KeyError:
-
 		texto = { 'error_message': "Vuelva a intentar"}
 		return render(request, 'login/register.html', contexto)
-
 		# validaciones como que ajuro entre al correo
 		# Busca al usurio enn la bd
 	# Cuando no se introdujo bien el correo lanza error
@@ -64,9 +68,9 @@ def register_usuario(request):
 		contexto = {
 
 			'email' : correo,
-
-
 		}
-
 		return HttpResponse(template.render(contexto,request))
+
+
+
 	
