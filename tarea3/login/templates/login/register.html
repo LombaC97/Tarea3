@@ -9,6 +9,7 @@
 	<form action="{% url 'login:register_usuario' %}" method="post">
 
 		{% csrf_token %}
+		<!-- Correo -->
 		<label for="correo" placeholder="ejemplo@mamarre.com"> Correo:  </label>
 		<br>
 		<input 
@@ -19,6 +20,7 @@
 		>
 		<br>
 		<br>
+		<!-- Contrasena21 -->
 		<label for="p_input" placeholder="ejemplo@mamarre.com"> Contraseña:  </label>
 		<br>
 		<input 
@@ -29,6 +31,7 @@
 		>
 		<br>
 		<br>
+		<!-- Contrasena 2 -->
 		<label for="repetir_contrasena">
 		Repetir contrasena <br></label>
 		<input
