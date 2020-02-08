@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Datos permitidos en el correo
 regexCorreo = '^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$'
+regexContra = '''[0-9]*[a-z]+[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]+|[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]+|[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]*[a-z]+[0-9]+|[0-9]*[A-Z]+[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]+|[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]+|[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]*[A-Z]+[0-9]+|[0-9]+[a-z]+[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]*|[0-9]+[a-z]+[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]*|[0-9]+[A-Z]+[0-9]*[a-z]+[0-9]*[a-z]+[0-9]*|[0-9]+[A-Z]+[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]*|[0-9]+[A-Z]+[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]*|[0-9]+[a-z]+[0-9]*[A-Z]+[0-9]*[A-Z]+[0-9]*|[0-9]*[a-z]+[0-9]+[a-z]+[0-9]*[A-Z]+[0-9]*|[0-9]*[a-z]+[0-9]+[A-Z]+[0-9]*[a-z]+[0-9]*|[0-9]*[A-Z]+[0-9]+[a-z]+[0-9]*[a-z]+[0-9]*|[0-9]*[A-Z]+[0-9]+[A-Z]+[0-9]*[a-z]+[0-9]*|[0-9]*[A-Z]+[0-9]+[a-z]+[0-9]*[A-Z]+[0-9]*|[0-9]*[a-z]+[0-9]+[A-Z]+[0-9]*[A-Z]+[0-9]*|[0-9]*[a-z]+[0-9]*[a-z]+[0-9]+[A-Z]+[0-9]*|[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]+[a-z]+[0-9]*|[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]+[a-z]+[0-9]*|[0-9]*[A-Z]+[0-9]*[A-Z]+[0-9]+[a-z]+[0-9]*|[0-9]*[A-Z]+[0-9]*[a-z]+[0-9]+[A-Z]+[0-9]*|[0-9]*[a-z]+[0-9]*[A-Z]+[0-9]+[A-Z]+[0-9]*'''
 
 # Se valida que el correo sea valido
 def validar_correo(value):
@@ -14,7 +15,8 @@ def validar_correo(value):
 
 # Verifia si la contrasena es correcto
 def validar_clave(value):
-	if(not len(value) <= 8 and len(value) >= 16 ):
+	acept = re.search(regexContra, value)
+	if( not acept or not (len(value) >= 8 and len(value) <= 16) ):
 		raise ValidationError(_('%(value)s contrasena invalida'), params={'value': value},)
 
 # Verifica si las contrasenas son iguales
